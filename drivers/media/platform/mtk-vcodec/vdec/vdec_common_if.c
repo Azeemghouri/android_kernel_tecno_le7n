@@ -574,8 +574,10 @@ static int vdec_get_param(unsigned long h_vdec,
 		break;
 
 	case GET_PARAM_COLOR_DESC:
-		if (inst->vsi == NULL)
-			return -EINVAL;
+		if (inst->vsi == NULL) {
+			memset(out, 0, sizeof(struct mtk_color_desc));
+			return 0;
+		}
 		get_color_desc(inst, out);
 		break;
 

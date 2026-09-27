@@ -26,19 +26,22 @@
 #define DISPINFO(string, args...)					\
 	do {								\
 		dprec_logger_pr(DPREC_LOGGER_DEBUG, string, ##args);	\
-		pr_info("[DISP]"string, ##args);		\
+		if (ddp_debug_dbg_log_level())				\
+			pr_info("[DISP]"string, ##args);		\
 	} while (0)
 
 #define DISPMSG(string, args...)					\
 	do {								\
 		dprec_logger_pr(DPREC_LOGGER_DEBUG, string, ##args);	\
-		pr_info("[DISP]"string, ##args);		\
+		if (ddp_debug_dbg_log_level())				\
+			pr_info("[DISP]"string, ##args);		\
 	} while (0)
 
 #define DISPCHECK(string, args...)					\
 	do {								\
 		dprec_logger_pr(DPREC_LOGGER_DEBUG, string, ##args);	\
-		pr_info("[DISP]"string, ##args);		\
+		if (ddp_debug_dbg_log_level())				\
+			pr_info("[DISP]"string, ##args);		\
 	} while (0)
 
 #define DISPWARN(string, args...)					\
