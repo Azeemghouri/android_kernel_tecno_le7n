@@ -253,7 +253,7 @@ static __KAL_INLINE__ void cnmTimerInitTimer(IN struct ADAPTER *prAdapter,
 					     IN unsigned long ulDataPtr)
 {
 	cnmTimerInitTimerOption(prAdapter, prTimer, pfFunc, ulDataPtr,
-		TIMER_WAKELOCK_AUTO);
+		TIMER_WAKELOCK_NONE);
 }
 
 
