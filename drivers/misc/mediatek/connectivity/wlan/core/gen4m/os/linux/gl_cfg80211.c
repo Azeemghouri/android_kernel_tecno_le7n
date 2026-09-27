@@ -5921,6 +5921,18 @@ int mtk_cfg80211_suspend(struct wiphy *wiphy,
 			&prGlueInfo->prAdapter->ulSuspendFlag);
 		set_bit(SUSPEND_FLAG_CLEAR_WHEN_RESUME,
 			&prGlueInfo->prAdapter->ulSuspendFlag);
+
+		prGlueInfo->fgIsInSuspendMode = TRUE;
+		wlanSetSuspendMode(prGlueInfo, TRUE);
+
+		if (prGlueInfo->rTimeoutWakeLock &&
+		    KAL_WAKE_LOCK_ACTIVE(prGlueInfo->prAdapter, prGlueInfo->rTimeoutWakeLock))
+			KAL_WAKE_UNLOCK(prGlueInfo->prAdapter, prGlueInfo->rTimeoutWakeLock);
+
+		if (prGlueInfo->prAdapter->rRootTimer.fgWakeLocked) {
+			KAL_WAKE_UNLOCK(prGlueInfo->prAdapter, prGlueInfo->prAdapter->rRootTimer.rWakeLock);
+			prGlueInfo->prAdapter->rRootTimer.fgWakeLocked = FALSE;
+		}
 	}
 end:
 	kalHaltUnlock();
@@ -5960,6 +5972,11 @@ int mtk_cfg80211_resume(struct wiphy *wiphy)
 
 	clear_bit(SUSPEND_FLAG_CLEAR_WHEN_RESUME,
 		  &prAdapter->ulSuspendFlag);
+
+	if (prGlueInfo->fgIsInSuspendMode) {
+		prGlueInfo->fgIsInSuspendMode = FALSE;
+		wlanSetSuspendMode(prGlueInfo, FALSE);
+	}
 
 	rStatus = kalIoctl(prGlueInfo,
 			wlanoidIndicateBssInfo,
