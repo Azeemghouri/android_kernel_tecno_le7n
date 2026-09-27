@@ -2688,6 +2688,8 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
 	case V4L2_CID_MPEG_MTK_QUEUED_FRAMEBUF_COUNT:
 		ctx->dec_params.queued_frame_buf_count = ctrl->val;
 		break;
+	case V4L2_CID_MPEG_MTK_INTERLACING:
+		break;
 	default:
 		mtk_v4l2_err("ctrl-id=%x not support!", ctrl->id);
 		return -EINVAL;
